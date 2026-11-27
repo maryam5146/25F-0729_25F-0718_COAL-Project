@@ -165,17 +165,7 @@ Each frame in PLAYING follows the manual's order: read keys, update Baby Peach, 
 
 ---
 
-## 10. Known Limitations
-
-
-1. Only one level (1-1). No sound and no saved high score.
-2. Health hearts and the Super form use simple drawing (squares and a stretched sprite) rather than dedicated artwork.
-3. The flag is detected by x position, so touching the pole is judged by Baby Peach's world position and not by tile overlap.
-4. The frame buffer assumes the segment above the program is free memory.
-
----
-
-## 11. References
+## 10. References
 
 - NASM documentation (nasm.us)
 - Ralf Brown's Interrupt List

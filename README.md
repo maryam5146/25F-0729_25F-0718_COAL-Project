@@ -5,7 +5,7 @@ FAST-NUCES
 
 A 16-bit side-scrolling platform game written in x86 assembly (NASM), running in DOSBox. VGA Mode 13h, real mode, single-segment `.COM` program (`MARIO.COM`). The hero is Baby Peach instead of Mario (see Deviations).
 
-> Items marked **[FILL IN]** are details the code cannot tell us. Complete them before submission.
+
 
 ---
 

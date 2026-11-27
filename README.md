@@ -1,7 +1,7 @@
 # Baby Peach Engine
 
 EL2003 Computer Organization and Assembly Language, Fall 2026
-FAST-NUCES, Chiniot-Faisalabad Campus
+FAST-NUCES
 
 A 16-bit side-scrolling platform game written in x86 assembly (NASM), running in DOSBox. VGA Mode 13h, real mode, single-segment `.COM` program (`MARIO.COM`). The hero is Baby Peach instead of Mario (see Deviations).
 

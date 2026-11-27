@@ -11,8 +11,8 @@ A 16-bit side-scrolling platform game written in x86 assembly (NASM), running in
 
 ## 1. Team
 
-| Name | Roll Number 
-|------|-------------|---------------|
+| Name | Roll Number |
+|------|-------------|
 | Muhammad Rehan Akas | 25F-0718 |
 | Maryam Salman | 25F-0729 |
 
@@ -25,7 +25,7 @@ A 16-bit side-scrolling platform game written in x86 assembly (NASM), running in
 ## 2. Repository Layout
 
 ```
-COAL_Project_[SECTION]_25F-0718_25F-0729/
+COAL_Project_[3F]_25F-0718_25F-0729/
   MARIO.asm     source code (single file)
   MARIO.COM     assembled executable
   README.md
@@ -123,23 +123,23 @@ Each frame in PLAYING follows the manual's order: read keys, update Baby Peach, 
 
 ## 7. Modules
 
-| # | Module | Main procedures | Owner |
-|---|--------|-----------------|-------|
-| 1 | Program skeleton and constants | `main_entry`, `state_exit_fn`, EQU constants | [FILL IN] |
-| 2 | Video mode and colours | `init_video_mode13h`, `setup_custom_palette`, `put_pixel`, `fill_rect` | [FILL IN] |
-| 3 | Level map and tiles | `reset_map`, `get_tile`, `is_tile_solid`, `draw_tile`, `draw_visible_map` | [FILL IN] |
-| 4 | Sprites | `draw_sprite` (mirror and 16x32 stretch flags, clipped through `put_pixel`) | [FILL IN] |
-| 5 | Frame buffer | `clear_buffer`, `flip_buffer` | [FILL IN] |
-| 6 | Camera and scrolling | `update_camera` | [FILL IN] |
-| 7 | Keyboard handler | `kb_isr`, `hook_interrupts`, `unhook_interrupts` | [FILL IN] |
-| 8 | Timer and clock | `timer_isr`, 30 Hz PIT setup, clock from `tick_delta` | [FILL IN] |
-| 9 | Movement and physics | `update_mario_physics` | [FILL IN] |
-| 10 | Collision detection | tile checks in `update_mario_physics`, `check_entity_collisions` | [FILL IN] |
-| 11 | Enemies and shells | `spawn_enemies`, `update_enemies`, `check_enemy_bump`, `check_shell_vs_enemies`, `award_stomp_chain` | [FILL IN] |
-| 12 | Blocks, coins, mushroom | `trigger_block_hit`, `collect_coin`, `update_mushroom` | [FILL IN] |
+| # | Module | Main procedures |
+|---|--------|-----------------|
+| 1 | Program skeleton and constants | `main_entry`, `state_exit_fn`, EQU constants | 
+| 2 | Video mode and colours | `init_video_mode13h`, `setup_custom_palette`, `put_pixel`, `fill_rect` | 
+| 3 | Level map and tiles | `reset_map`, `get_tile`, `is_tile_solid`, `draw_tile`, `draw_visible_map` | 
+| 4 | Sprites | `draw_sprite` (mirror and 16x32 stretch flags, clipped through `put_pixel`) |
+| 5 | Frame buffer | `clear_buffer`, `flip_buffer` | 
+| 6 | Camera and scrolling | `update_camera` | 
+| 7 | Keyboard handler | `kb_isr`, `hook_interrupts`, `unhook_interrupts` | 
+| 8 | Timer and clock | `timer_isr`, 30 Hz PIT setup, clock from `tick_delta` | 
+| 9 | Movement and physics | `update_mario_physics` | 
+| 10 | Collision detection | tile checks in `update_mario_physics`, `check_entity_collisions` | 
+| 11 | Enemies and shells | `spawn_enemies`, `update_enemies`, `check_enemy_bump`, `check_shell_vs_enemies`, `award_stomp_chain` | 
+| 12 | Blocks, coins, mushroom | `trigger_block_hit`, `collect_coin`, `update_mushroom` | 
 | 13 | Score, HUD | `add_score` (ADD/ADC), `draw_char`, `draw_string`, `draw_number`, `draw_score_6digits`, `draw_hud` | 
-| 14 | States and screens | `state_*_fn` handlers, `render_gameplay_frame` | [FILL IN] |
-| 15 | Win, lose, restart, exit | `trigger_flag_win`, `reset_level_life`, `reset_new_game`, `state_exit_fn` | [FILL IN] |
+| 14 | States and screens | `state_*_fn` handlers, `render_gameplay_frame` | 
+| 15 | Win, lose, restart, exit | `trigger_flag_win`, `reset_level_life`, `reset_new_game`, `state_exit_fn` | 
 
 ---
 
@@ -155,7 +155,6 @@ Each frame in PLAYING follows the manual's order: read keys, update Baby Peach, 
 | Frame buffer is placed at `CS + 1000h` without a DOS allocation call. | Simpler setup |
 | Timer is reprogrammed to 30 Hz and restored to 18.2 Hz on exit. | Fixed frame rate |
 
- Add any other change you made to a rule, value or feature.
 
 ---
 
@@ -163,13 +162,11 @@ Each frame in PLAYING follows the manual's order: read keys, update Baby Peach, 
 
 - Walking animation (two running poses alternate with the frame counter, plus standing and jumping poses).
 
- Add or remove items. Not implemented as far as the code shows: sound, second level, saved high score, Fire flower, score pop-ups, "hurry" blink.
 
 ---
 
 ## 10. Known Limitations
 
- Check each one against your own testing, then keep, edit or replace.
 
 1. Only one level (1-1). No sound and no saved high score.
 2. Health hearts and the Super form use simple drawing (squares and a stretched sprite) rather than dedicated artwork.

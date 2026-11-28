@@ -17,7 +17,7 @@ A 16-bit side-scrolling platform game written in x86 assembly (NASM), running in
 | Maryam Salman | 25F-0729 |
 
 - Section: [3F]
-- Lab instructor: [Choudary Shehzad Tanveer]
+- Lab instructor: [Choudhary Shehzad Tanveer]
 
 
 ---
@@ -29,7 +29,7 @@ COAL_Project_[3F]_25F-0718_25F-0729/
   MARIO.asm     source code (single file)
   MARIO.COM     assembled executable
   README.md
-  docs/         report and screenshots
+ 
 ```
 
  Adjust to match the actual folders.

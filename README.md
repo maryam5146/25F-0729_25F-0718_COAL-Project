@@ -29,7 +29,8 @@ COAL_Project_[3F]_25F-0718_25F-0729/
   MARIO.asm     source code (single file)
   MARIO.COM     assembled executable
   README.md
- 
+
+```
 ---
 
 ## 3. Build and Run

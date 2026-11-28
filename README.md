@@ -30,10 +30,6 @@ COAL_Project_[3F]_25F-0718_25F-0729/
   MARIO.COM     assembled executable
   README.md
  
-```
-
- Adjust to match the actual folders.
-
 ---
 
 ## 3. Build and Run

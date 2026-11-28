@@ -1,20 +1,17 @@
 ; EL2003 - COMPUTER ORGANIZATION AND ASSEMBLY LANGUAGE
 ; SEMESTER PROJECT: BABY PEACH ENGINE (16-Bit Real Mode, VGA Mode 13h)
 ; Tools: NASM + DOSBox | Executable: MARIO.COM (Single Segment, ORG 100h)
-; =============================================================================
 ; BUILD:    nasm MARIO.asm -f bin -O0 -o MARIO.COM   (no -O2 needed)
 ; CONTROLS: Left/Right = move, Left Shift = run, Space = jump, P = pause,
 ;           Enter = select, Up/Down = menu, Esc = back/exit
 ; DEBUG KEYS (list in README): T = clock to 5 s, C = coins to 99
-; =============================================================================
 [org 0x0100]
 cpu 386
    
     jmp near main_entry
 
-; =============================================================================
 ; MODULE 1: CONSTANTS & DATA DEFINITIONS (Appendix A)
-; =============================================================================
+
 SCREEN_W        EQU 320
 SCREEN_H        EQU 200
 MAP_COLS        EQU 60
@@ -290,9 +287,9 @@ working_map:
     db 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0
     db 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0
 
-; =============================================================================
+
 ; MODULE 4: SPRITE BITMAPS (16x16 = 256 bytes each)
-; =============================================================================
+
 %macro PEACH_HEAD 0
     db 0,0,0,0,200,0,200,200,0,200,0,0,0,0,0,0
     db 0,0,0,0,200,200,4,4,200,200,0,0,0,0,0,0
@@ -498,7 +495,7 @@ state_jump_table:
     dw state_game_over_fn
     dw state_exit_fn
 
-; -----------------------------------------------------------------------------
+
 ; STATE 0: TITLE SCREEN
 ; -----------------------------------------------------------------------------
 state_title_fn:
@@ -615,7 +612,7 @@ state_title_fn:
     call flip_buffer
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
+
 ; STATE 1: PLAYING (Section 5.13 Frame Order)
 ; -----------------------------------------------------------------------------
 state_playing_fn:
@@ -708,7 +705,6 @@ state_playing_fn:
     call flip_buffer
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
 ; STATE 2: PAUSED
 ; -----------------------------------------------------------------------------
 state_paused_fn:
@@ -749,7 +745,6 @@ state_paused_fn:
     call flip_buffer
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
 ; STATE 3: DYING ANIMATION
 ; -----------------------------------------------------------------------------
 state_dying_fn:
@@ -779,7 +774,6 @@ state_dying_fn:
 .done:
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
 ; STATE 4: LIFE LOST SCREEN
 ; -----------------------------------------------------------------------------
 state_life_lost_fn:
@@ -823,7 +817,6 @@ state_life_lost_fn:
 .wait:
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
 ; STATE 5: WIN SEQUENCE
 ; -----------------------------------------------------------------------------
 state_win_seq_fn:
@@ -869,7 +862,6 @@ state_win_seq_fn:
 .done:
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
 ; STATE 6: LEVEL COMPLETE SCREEN
 ; -----------------------------------------------------------------------------
 state_level_comp_fn:
@@ -960,7 +952,7 @@ state_level_comp_fn:
     call flip_buffer
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
+
 ; STATE 7: GAME OVER SCREEN
 ; -----------------------------------------------------------------------------
 state_game_over_fn:
@@ -999,7 +991,6 @@ state_game_over_fn:
     call flip_buffer
     jmp near state_machine_loop
 
-; -----------------------------------------------------------------------------
 ; STATE 8: EXIT TO DOS
 ; -----------------------------------------------------------------------------
 state_exit_fn:
@@ -1009,12 +1000,10 @@ state_exit_fn:
     mov ax, 0x4C00
     int 0x21
 
-; =============================================================================
+
 ; MODULE 2 & 5: VIDEO MODE, CUSTOM VGA PALETTE, DOUBLE BUFFER & PIXEL PRIMITIVES
-; =============================================================================
-; -----------------------------------------------------------------------------
-; init_video_mode13h - Switch to VGA mode 13h and load the custom palette
-;   In: none | Out: none | Changes: none (AX saved)
+
+
 init_video_mode13h:
     push ax
     mov ax, 0x0013
@@ -1024,9 +1013,6 @@ init_video_mode13h:
     ret
 
 ; Programs exact 6-bit RGB DAC values (0-63) into VGA Palette Registers
-; -----------------------------------------------------------------------------
-; setup_custom_palette - Program the theme colours into the VGA DAC (6-bit RGB)
-;   In: none | Out: none | Changes: none (AX, DX saved)
 setup_custom_palette:
     push ax
     push dx
@@ -1119,7 +1105,7 @@ setup_custom_palette:
     pop ax
     ret
 
-; -----------------------------------------------------------------------------
+
 ; clear_buffer - Fill the whole off-screen buffer with one colour (REP STOSW)
 ;   In: [bp+4]=colour | Out: buffer filled | Changes: none
 clear_buffer:
@@ -1145,7 +1131,7 @@ clear_buffer:
     pop bp
     ret 2
 
-; -----------------------------------------------------------------------------
+
 ; flip_buffer - Copy the off-screen buffer to video memory (REP MOVSW)
 ;   In: none | Out: screen updated | Changes: none
 flip_buffer:
@@ -1173,7 +1159,7 @@ flip_buffer:
     pop ax
     ret
 
-; -----------------------------------------------------------------------------
+
 ; put_pixel - Write one clipped pixel into the buffer
 ;   In: [bp+8]=x, [bp+6]=y, [bp+4]=colour | Out: pixel set | Changes: none
 put_pixel:
@@ -1216,7 +1202,7 @@ put_pixel:
     pop bp
     ret 6
 
-; -----------------------------------------------------------------------------
+
 ; fill_rect - Fill a clipped rectangle in the buffer (REP STOSB per row)
 ;   In: [bp+12]=x, [bp+10]=y, [bp+8]=w, [bp+6]=h, [bp+4]=colour | Out: rectangle drawn | Changes: none
 fill_rect:
@@ -1297,10 +1283,9 @@ fill_rect:
     pop bp
     ret 10
 
-; =============================================================================
+
 ; MODULE 3: LEVEL MAP, TILE LOOKUP & RENDERING
-; =============================================================================
-; -----------------------------------------------------------------------------
+
 ; reset_map - Restore the working map from the original map (REP MOVSB)
 ;   In: none | Out: working_map restored | Changes: none
 reset_map:
@@ -1324,9 +1309,7 @@ reset_map:
     ret
 
 ; Returns tile code at (world_px=[bp+6], world_py=[bp+4]) in AL, map index in BX
-; -----------------------------------------------------------------------------
-; get_tile - Look up the tile under a world pixel position
-;   In: [bp+6]=world x, [bp+4]=world y | Out: AL=tile code, BX=map index | Changes: AX, BX
+
 get_tile:
     push bp
     mov bp, sp
@@ -1372,9 +1355,7 @@ get_tile:
     ret 4
 
 ; Checks if tile code in AL is solid (Returns AL=1 if solid, 0 if not)
-; -----------------------------------------------------------------------------
-; is_tile_solid - Tell whether a tile code is solid
-;   In: AL=tile code | Out: AL=1 solid, 0 not solid | Changes: AL
+
 is_tile_solid:
     cmp al, TILE_GROUND
     jae $+5
@@ -1389,7 +1370,7 @@ is_tile_solid:
     mov al, 1
     ret
 
-; -----------------------------------------------------------------------------
+
 ; draw_tile - Draw one 16x16 tile
 ;   In: [bp+8]=screen x, [bp+6]=screen y, [bp+4]=tile code | Out: tile drawn | Changes: none
 draw_tile:
@@ -1563,7 +1544,7 @@ draw_tile:
     pop bp
     ret 6
 
-; -----------------------------------------------------------------------------
+
 ; draw_visible_map - Draw the 20+1 visible tile columns, scrolled by camera_x
 ;   In: none (uses camera_x) | Out: map drawn | Changes: none
 draw_visible_map:
@@ -1626,10 +1607,9 @@ draw_visible_map:
     pop ax
     ret
 
-; =============================================================================
+
 ; MODULE 4: SPRITE RENDERER
-; =============================================================================
-; -----------------------------------------------------------------------------
+
 ; draw_sprite - Draw a 16x16 sprite, colour 0 transparent (flags: bit0 mirror, bit1 double height)
 ;   In: [bp+10]=x, [bp+8]=y, [bp+6]=sprite address, [bp+4]=flags | Out: sprite drawn | Changes: none
 draw_sprite:
@@ -1700,10 +1680,9 @@ draw_sprite:
     pop bp
     ret 8
 
-; =============================================================================
+
 ; MODULE 6: CAMERA UPDATE
-; =============================================================================
-; -----------------------------------------------------------------------------
+
 ; update_camera - Follow Baby Peach, clamp, never scroll left, left wall (Section 5.3)
 ;   In: none (uses mario_x) | Out: camera_x, mario_x updated | Changes: none
 update_camera:
@@ -1779,7 +1758,7 @@ kb_isr:
     pop ax
     iret
 
-; -----------------------------------------------------------------------------
+
 ; timer_isr - INT 08h handler: counts a tick, then chains to the old handler
 ;   In: none | Out: tick_count + 1 | Changes: none
 timer_isr:
@@ -1790,9 +1769,7 @@ timer_isr:
     pop ds
     jmp far [cs:old_tm_isr]
 
-; -----------------------------------------------------------------------------
-; hook_interrupts - Save old vectors, set the timer to 30 Hz, install kb_isr and timer_isr
-;   In: none | Out: vectors replaced | Changes: none
+
 hook_interrupts:
     push ax
     push bx
@@ -1832,9 +1809,7 @@ hook_interrupts:
     pop ax
     ret
 
-; -----------------------------------------------------------------------------
-; unhook_interrupts - Restore the old vectors and the 18.2 Hz timer rate
-;   In: none | Out: vectors restored | Changes: none
+
 unhook_interrupts:
     push ax
     push dx
@@ -1859,10 +1834,9 @@ unhook_interrupts:
     pop ax
     ret
 
-; =============================================================================
+
 ; MODULE 9 & 10: PLAYER PHYSICS, COLLISION & BLOCK TRIGGERS
-; =============================================================================
-; -----------------------------------------------------------------------------
+
 ; update_mario_physics - Move Baby Peach: speed, jump, gravity, tile collision, map coins
 ;   In: none (uses key_state) | Out: mario_* variables updated | Changes: none
 update_mario_physics:
@@ -2233,7 +2207,7 @@ collect_coin:
     pop ax
     ret
 
-; -----------------------------------------------------------------------------
+
 ; update_mushroom - Move the mushroom: walk, turn at walls, fall, remove
 ;   In: none | Out: mush_* updated | Changes: none
 update_mushroom:
@@ -2307,10 +2281,9 @@ update_mushroom:
 .ret:
     ret
 
-; =============================================================================
+
 ; MODULE 11: ENEMIES & KOOPA SHELLS (Section 5.5)
-; =============================================================================
-; -----------------------------------------------------------------------------
+
 ; spawn_enemies - Fill the enemy table from the spawn table
 ;   In: none | Out: enemy_table filled | Changes: none
 spawn_enemies:
@@ -2361,7 +2334,7 @@ spawn_enemies:
     pop ax
     ret
 
-; -----------------------------------------------------------------------------
+
 ; update_enemies - Update every enemy record: activate, walk, turn, fall, remove
 ;   In: none | Out: enemy_table updated | Changes: none
 update_enemies:
@@ -2537,7 +2510,7 @@ update_enemies:
 
 ; SI = walking enemy record. Flips its direction when it walks into
 ; another walking enemy (only the one that moves towards the other turns).
-; -----------------------------------------------------------------------------
+
 ; check_enemy_bump - Turn a walking enemy around when it walks into another one
 ;   In: SI=enemy record | Out: direction byte flipped | Changes: none
 check_enemy_bump:
@@ -2596,7 +2569,7 @@ check_enemy_bump:
     ret
 
 ; SI = sliding shell record
-; -----------------------------------------------------------------------------
+
 ; check_shell_vs_enemies - A sliding shell defeats every enemy it touches (+500 each)
 ;   In: SI=sliding shell record | Out: enemies removed, score | Changes: none
 check_shell_vs_enemies:
@@ -2647,10 +2620,9 @@ check_shell_vs_enemies:
     pop ax
     ret
 
-; =============================================================================
+
 ; MODULE 10 & 11: BABY PEACH VS ENTITIES COLLISION (Section 5.6, 5.7)
-; =============================================================================
-; -----------------------------------------------------------------------------
+
 ; check_entity_collisions - Baby Peach against mushroom and enemies: collect, stomp, kick, hurt
 ;   In: none | Out: hp, score, enemy states | Changes: none
 check_entity_collisions:
@@ -2901,11 +2873,11 @@ trigger_flag_win:
     pop ax
     ret
 
-; =============================================================================
+
 ; MODULE 13: 32-BIT SCORE, FONT RENDERING & HUD (Section 5.14)
-; =============================================================================
+
 ; Inputs: [bp+4] = 16-bit points to add to 32-bit score (ADD / ADC)
-; -----------------------------------------------------------------------------
+
 ; add_score - Add points to the 32-bit score with ADD/ADC, clamp to 999999
 ;   In: [bp+4]=points | Out: score_high:score_low | Changes: none
 add_score:
@@ -2936,9 +2908,7 @@ add_score:
 
 ; Draws an 8x8 ASCII character from ROM BIOS font (F000:FA6E)
 ; Inputs: [bp+10]=x, [bp+8]=y, [bp+6]=color, [bp+4]=ASCII char
-; -----------------------------------------------------------------------------
-; draw_char - Draw one 8x8 character from the BIOS font
-;   In: [bp+10]=x, [bp+8]=y, [bp+6]=colour, [bp+4]=ASCII | Out: character drawn | Changes: none
+
 draw_char:
     push bp
     mov bp, sp
@@ -2998,7 +2968,7 @@ draw_char:
     ret 8
 
 ; Inputs: [bp+10]=x, [bp+8]=y, [bp+6]=color, [bp+4]=null-terminated string addr
-; -----------------------------------------------------------------------------
+
 ; draw_string - Draw a zero-terminated string
 ;   In: [bp+10]=x, [bp+8]=y, [bp+6]=colour, [bp+4]=string address | Out: text drawn | Changes: none
 draw_string:
@@ -3033,7 +3003,7 @@ draw_string:
 
 ; Converts 16-bit number to zero-padded decimal digits via stack (Module 13)
 ; Inputs: [bp+12]=x, [bp+10]=y, [bp+8]=number, [bp+6]=digits_count, [bp+4]=color
-; -----------------------------------------------------------------------------
+
 ; draw_number - Draw an unsigned number with leading zeros
 ;   In: [bp+12]=x, [bp+10]=y, [bp+8]=number, [bp+6]=digits, [bp+4]=colour | Out: number drawn | Changes: none
 draw_number:
@@ -3081,7 +3051,7 @@ draw_number:
 
 ; Prints 32-bit score (score_high:score_low) as 6 zero-padded digits
 ; Inputs: [bp+6]=x, [bp+4]=y
-; -----------------------------------------------------------------------------
+
 ; draw_score_6digits - Draw the 32-bit score as 6 digits
 ;   In: [bp+6]=x, [bp+4]=y | Out: score drawn | Changes: none
 draw_score_6digits:
@@ -3125,7 +3095,6 @@ draw_score_6digits:
     pop bp
     ret 4
 
-; -----------------------------------------------------------------------------
 ; draw_hud - Draw the HUD strip: score, coins, world, time, lives, hearts
 ;   In: none | Out: HUD drawn | Changes: none
 draw_hud:
@@ -3212,10 +3181,9 @@ draw_hud:
     pop ax
     ret
 
-; =============================================================================
+
 ; COMPOSITE GAMEPLAY FRAME RENDERER & RESET ROUTINES (Modules 14 & 15)
-; =============================================================================
-; -----------------------------------------------------------------------------
+
 ; render_gameplay_frame - Draw the whole gameplay picture into the buffer
 ;   In: none | Out: buffer holds the frame | Changes: none
 render_gameplay_frame:
@@ -3337,7 +3305,7 @@ render_gameplay_frame:
     ret
 
 ; Resets level after losing a life (keeps Score, Coins, Lives - Section 5.8)
-; -----------------------------------------------------------------------------
+
 ; reset_level_life - Restart the level after a lost life (score, coins, lives kept)
 ;   In: none | Out: level variables reset | Changes: none
 reset_level_life:
@@ -3361,7 +3329,7 @@ reset_level_life:
     ret
 
 ; Resets everything for a brand new game (Section 5.8)
-; -----------------------------------------------------------------------------
+
 ; reset_new_game - Reset everything for a brand new game
 ;   In: none | Out: all game variables reset | Changes: none
 reset_new_game:
